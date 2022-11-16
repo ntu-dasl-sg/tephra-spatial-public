@@ -26,5 +26,8 @@ Here we demonstrate how we post-process the results of Tephra2 inversion using R
 4. **Generate plots and csv with `process_bestfit.Rmd`**
 * This creates maps of the best forward model and a csv of train errors, test errors and best-fit ESPs.
 
-5. **Implement the kriging techniques using `michele_code_krig.R`
+5. **Implement the kriging techniques using `michele_code_krig.R`**
 * The results will be in the form of raster maps (.RData file)
+
+6. **Check suitability of cost function based on the residual distribution**
+* Use `qqplots.Rmd` to generate QQ plots, given that multiple inversions using different cost functions were done. `qqplots.Rmd` reads the outputs in the `Output CSV` folder.
