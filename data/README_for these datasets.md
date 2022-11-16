@@ -1,4 +1,3 @@
-
 # Raw datasets used in the paper
 
 Our collaboration with George Williams, Sebastien Biasse and Susanna Jenkins during George William's PhD research in 2019 allowed this work to make use of the data in this folder. This data was passed on to us in the hope of it being useful for volcanic research.
