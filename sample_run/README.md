@@ -9,11 +9,9 @@ Here we demonstrate how we post-process the results of Tephra2 inversion using R
 * Transfer the inversion results that you want to post-process in a folder called `ResultsfromKomodo`
 
 2.  **Create train and test set with `get_test.rmd`**
-* This file generates a train and test set from Dataset 1 and 2.
-* The test set is randomly selected from Dataset 1 only with 20-80 test train ratio (resulting to 16 test points)
-* All of Dataset 2 goes to the training set.
-* Raw data comes from `Data` folder.
-* Output csv files for Komodo runs saved to `Train and Test` folder. Output figures saved to `Graphics`
+* This file generates a train and test set from Dataset 1 and 2 and saves to the `Train and Test` folder. The test set is randomly selected from Dataset 1 only with 20-80 test train ratio (resulting to 16 test points). All of Dataset 2 goes to the training set.
+* The raw data comes from `Data` folder.
+* Output csv files from the Komodo runs are saved to the `Output CSV` folder. Output figures saved to `Graphics`
 * Outliers removed:
     * Dataset 1: 629785, 9122495     (Load = 7) -- Very small value surrounded by large values
     * Dataset 2: 645089.9	9126336	  (Load =  3.50e+02	 -- produces large errors
