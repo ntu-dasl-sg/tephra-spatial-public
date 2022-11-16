@@ -1,0 +1,39 @@
+Mon Aug  1 22:52:28 2022
+
+FIT = 0.42
+Modeled Values:
+	Max Column Height: 22358 (m)
+	Alpha Param: 3
+	Beta Param: 2.31384
+	Diffusion Coefficient: 14037 (m^2/s)
+	Fall Time Threshold: 3545 (s)
+	Eddy Constant: 0.04 (m^2/s)
+
+Total Mass Ejected: 9.97577e+09 (kg)
+
+Grainsize Distribution
+	Max Particle Size: -6 (phi)
+	Min Particle Size: 10 (phi)
+	Median Size: 0.358788 (phi)
+	Std. Dev.: 0.56702 (phi)
+
+Number of Parameters = 9
+Number of Vertices = 10
+Tolerance = 0.001
+
+Volcano Location:
+	643842 (Easting)
+	9122240 (Northing)
+
+Parameter Ranges:
+	Maximum Column Height: 22000  23000 (m)
+	Alpha Param: 3  3
+	Beta Param: 0.001  3.5
+	Diffusion Coefficient: 1  15000 (m^2/s)
+	Eddy Constant: 0.04 0.04 (m^2/s)
+	Total Mass Ejected: 1e+09  1e+10 (kg)
+	Median Grain Size: -3  2.5 (phi)
+	Std. Dev. in particle diameter: 0.5  3 (phi)
+	Fall Time Threshold: 0  15000 (s)
+	Wind Speed: 10.0  40.0 (m/s)
+	Wind Direction: 70  105 (+/- degrees from N)
