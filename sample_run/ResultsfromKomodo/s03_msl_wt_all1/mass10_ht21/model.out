@@ -1,0 +1,18 @@
+Volcano Location:
+	Northing: 9122240
+	Easting: 643842
+
+Total Grainsize Distribution:
+	Max Particle Size -6
+	Min Particle Size: 10
+	Median Diameter: 1.82971
+	Standard Deviation: 1.76726
+	Beta Distribution Param-Alpha: 3
+	Beta Distribution Param-Beta: 1.71807
+
+Diffusion Coefficient: 8845
+Eddy Constant: 0.04
+Total Mass Erupted: 9.83785e+10
+Eruption Plume Height: 21222
+Vent Height: 1713
+Fall Time Threshold: 5015
