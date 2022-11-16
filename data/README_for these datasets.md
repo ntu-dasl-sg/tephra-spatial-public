@@ -1,6 +1,6 @@
-# Raw datasets used in the paper
+# Data on tephra load
 
-Our collaboration with George Williams, Sebastien Biasse and Susanna Jenkins during George William's PhD research in 2019 allowed this work to make use of the data in this folder. This data was passed on to us in the hope of it being useful for volcanic research.
+Our collaboration with George Williams, Sebastien Biasse and Susanna Jenkins during George William's PhD research in 2019 allowed this work to make use of the data in this folder. This data was passed on to us in the hope of it being useful for volcanic research. Please contact the corresponding author for any aims to publish or present this data.
 
 We thank George and Sebastien for formatting and digitising the data from CVGHM and Maeno's paper to produce these input files compatible with Tephra2.
 
