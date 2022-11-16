@@ -1,0 +1,364 @@
+---
+title: "get_test_set"
+author: "Maricar L. Rabonza"
+date: "6/25/2021"
+output: html_document
+---
+
+This file generates a train and test set from Dataset 1 and 2.
+The test set is randomly selected from Dataset 1 only with 20-80 test train ratio.
+All of Dataset 2 goes to the training set.
+
+Raw data comes from `Data` folder.
+Output files go to `Train and Test` folder.
+
+
+
+```{r setup, include=FALSE}
+#Working libraries
+library(here) # sets location of .RProj as working directory
+library(knitr) # useful for many rmarkdown layout functions
+library(raster) # handling rasters
+library(dplyr) # data wrangling
+library(ggplot2) # the ultimate plotter
+library(geosphere)
+library(sp) # raster plotting
+library(gstat) # helps with geostatistics and kriging
+library(plotly) # another nice plotter
+library(automap) # gives out pretty variogram plots
+library(DescTools) # reverse dataframe order
+library(GGally)
+library(PerformanceAnalytics)
+library(ggExtra)
+library(gridExtra) # gridarrange
+library(caret) # k-fold cross-validation
+library(lemon) # grid_arrange_shared_legend
+library(tidyverse)
+library(rgeos) # for minimum distance
+library(viridis) #color palette
+library(ggpubr)
+#library(cluster)
+```
+
+## Read data
+
+```{r }
+#-------------------
+# READ ALL OBSERVED DATA
+#-------------------
+
+# Specify folder locations
+kelud.df <- data.frame(easting=644183.3,northing=9123213.6) # input coord of volcano# Dataset 1
+ds1_loc = here("Data", "datasets_raw", "Kelud_deposit_after2-3days_CVGHM_81points.csv") # Dataset 2
+ds2_loc = here("Data", "datasets_raw", "Kelud_deposit_after3weeks_Maeno_50points.csv") # Dataset 2 folder
+
+# Read dataset 1
+allpts <- read.csv(ds1_loc, head=TRUE, sep=",")
+
+# Read dataset 2 
+allpts_ds2 <- read.csv(ds2_loc, head=TRUE, sep=",")
+colnames(allpts_ds2) <- c('Easting', 'Northing', 'Load')
+
+```
+
+## Remove outlier in Dataset 1
+
+```{r }
+
+# Tag outlier: 629785, 9122495 (Load = 7)
+allpts$Outlier <- "No"; allpts$Outlier[allpts$Easting == 629785] <- "Yes"
+
+# Plot map of all points showing outlier as red
+ggplot() +
+    geom_point(data=kelud.df, aes(x=easting, y=northing), shape=24, bg="red", size=3) +
+    geom_point(data = allpts, aes(x = Easting, y = Northing, size=Load), alpha = 0.3) +
+    scale_size_continuous(name=bquote(atop(Tephra~load~phantom(), (kg/~m^2)))) + 
+    geom_point(data=allpts[allpts$Outlier == "Yes", ], aes(x=Easting, y=Northing, size = Load),  color ="red", alpha = 0.3) +
+    ggtitle("Dataset 1 (CVGHM)") +
+    labs(x = "Easting (m)",
+         y = "Northing (m)") +
+    xlim(580000, 670000) +
+    ylim(9102400, 9161100) +
+    theme_bw()+
+    theme(legend.position = c(.88, .5), legend.key = element_rect(fill = "white", colour = "black")) +
+    cowplot::background_grid(major = "none", minor = "none") +
+    coord_fixed(xlim = c(580000, 680000) , ylim = c(9102400, 9162400)) # zoom to map coords
+
+# Remove points tagged as outlier
+allpts <- allpts[allpts$Outlier == "No", ]
+nrow(allpts) # show number of points once outlier/s are removed
+
+# Remove tag column
+allpts <- allpts[,-4]
+
+
+```
+
+## Histograms of data
+
+```{r }
+mean_load <- mean(allpts$Load)
+ggplot(data=allpts, aes(x=Load)) +
+    geom_histogram(binwidth = 5) + 
+    ggtitle("Dataset 1 loads")  +
+    geom_vline(xintercept=mean_load)+
+    theme_bw()
+
+mean_load_ds2 <- mean(allpts_ds2$Load)
+ggplot(data=allpts_ds2, aes(x=Load)) +
+    geom_histogram(binwidth = 5) + 
+    ggtitle("Dataset 2 loads")  +
+    geom_vline(xintercept=mean_load_ds2)+
+    theme_bw()
+
+# Remove very large values in Dataset 2 that produce very large errors
+# Easting Northing Load 
+# 645089.9	9126336	    3.50e+02	
+# 641221.3	9121778	    2.10e+02	
+# 647377.0	9126551	    2.24e+02
+
+# Tag outlier: 629785, 9122495 (Load = 7)
+allpts_ds2$Outlier <- "No"; 
+allpts_ds2$Outlier[allpts_ds2$Load ==3.50e+02] <- "Yes"
+allpts_ds2$Outlier[allpts_ds2$Load ==2.24e+02] <- "Yes"
+allpts_ds2$Outlier[allpts_ds2$Load ==2.10e+02] <- "Yes"
+# Remove points tagged as outlier
+allpts_ds2 <- allpts_ds2[allpts_ds2$Outlier == "No", ]
+nrow(allpts_ds2) # show number of points once outlier/s are removed
+allpts_ds2 <- allpts_ds2[,-4] # Remove tag column
+
+#Histogram after removing outlier
+mean_load_ds2 <- mean(allpts_ds2$Load)
+ggplot(data=allpts_ds2, aes(x=Load)) +
+    geom_histogram(binwidth = 5) + 
+    ggtitle("Dataset 2 loads - 3 large points removed")  +
+    #xlim(c(-2,200)) +
+    geom_vline(xintercept=mean_load_ds2)+
+    theme_bw()
+
+```
+
+
+## Select random test points from Dataset 1
+
+```{r}
+
+# Set seed
+set.seed(3)
+
+# Set number of test points (m)
+m <- 16 # with a 20-80 test train ratio
+id <- sample(nrow(allpts), m) # randomly sample m points in the subset
+test_set <- allpts[id,]
+train_set <- anti_join(allpts, test_set, by = c("Easting" = "Easting")) # Set points not in test set as train points
+
+# Tag training and test points
+train_set$Set <- "Training"
+test_set$Set <- "Test"
+obs <- rbind(train_set, test_set)
+obs$Set <- factor(obs$Set, levels = c("Training", "Test"))
+```
+
+
+## Check load distribution of test points
+```{r}
+hist_test  <- ggplot(data=test_set, aes(x=Load)) + geom_histogram(binwidth = 5) + ggtitle("Test set load") + 
+    #xlim(c(0,250)) + 
+    ylim(c(0,22)) +
+    theme_bw()
+
+hist_train  <-ggplot(data=train_set, aes(x=Load)) + geom_histogram(binwidth = 5) + ggtitle("Train set load") + 
+    #xlim(c(0,250)) + 
+    ylim(c(0,22)) +
+    theme_bw()
+
+hist_ds2  <-ggplot(data=allpts_ds2, aes(x=Load)) + geom_histogram(binwidth = 5) + ggtitle("Dataset 2 load") + 
+    #xlim(c(0,250)) + 
+    ylim(c(0,22)) +
+    theme_bw()
+
+ggarrange(hist_train, hist_test, hist_ds2,
+                    ncol = 1, nrow = 3)
+
+# Save file
+ggsave(file= here("Graphics","histogram.png"),
+       width = 4.5, height = 3,
+       scale =2.2,
+       dpi = 300)
+
+```
+
+
+## Check closest distance between any test point pair
+```{r}
+sp.test <- test_set
+sp.test <- cbind(rownames(test_set), test_set)
+df.test <- cbind(rownames(test_set), test_set)
+colnames(sp.test) <- c('id', 'Easting', 'Northing', 'Load', 'Set')
+coordinates(sp.test) <- ~Easting + Northing
+class(sp.test)
+# Calculate pairwise distances between points
+d <- gDistance(sp.test, byid=T)
+# Find second shortest distance (closest distance is of point to itself, therefore use second shortest)
+min.d <- apply(d, 1, function(x) order(x, decreasing=F)[2])
+new.test <- cbind(df.test, df.test[min.d,], apply(d, 1, function(x) sort(x, decreasing=F)[2]))
+colnames(new.test) <- c('source',colnames(test_set), 'neighbor', 'Easting', 'Northing', 'Load', 'Set', 'distance')
+# Return the nearest distance between any pair
+dist_closestpair <- min(new.test$distance)
+dist_closestpair
+```
+
+## Plot train and test points in Dataset 1
+```{r}
+
+ggplot(data = obs) + 
+    geom_point(aes(x=Easting, y=Northing, size = Load, alpha = 0.2, shape = Set)) + 
+    scale_color_manual(values = c("red", viridis::viridis(5)))+
+    scale_shape_manual(values=c('Test'=19, 'Training'=1))+
+    xlab("Easting") + ylab("Northing") + 
+    theme(legend.position = "bottom") + 
+    guides(alpha = FALSE, size = FALSE) +
+    labs(subtitle = paste("DATASET 1: Distance between two closest test points = ", round(dist_closestpair, 2), sep = ""),
+         x = "Easting (m)",
+         y = "Northing (m)"
+         #caption= paste("Fit to train set = ",round(best_fit, 2), sep = "")
+    ) +
+    theme_bw()
+
+# Save file
+ggsave(file= here("Graphics","train_test_ds1.png"),
+       width = 4.5, height = 3,
+       scale =2.2,
+       dpi = 300)
+
+```
+
+## Add Dataset 2
+```{r}
+
+
+allpts_ds2$Set <- "Training"
+allpts_ds2$Data <- "Dataset_2"
+obs$Data <- "Dataset_1"
+obs_ds1ds2 <- rbind(obs, allpts_ds2)
+
+```
+
+## Plot Dataset 1 and 2
+```{r}
+
+ggplot(data = obs_ds1ds2, aes(x=Easting, y=Northing, size = Load,color=Set, shape=Data, alpha=0.05)) + 
+    geom_point() + 
+    scale_color_manual(values = c("gray50", "red"))+
+    scale_shape_manual(values=c('Dataset_1'=19, 'Dataset_2'=1))+
+    xlab("Easting") + ylab("Northing") + 
+    theme(legend.position = "bottom") + 
+    guides(alpha = FALSE, size = FALSE) +
+    labs(subtitle = paste("Distance between two closest test points = ", round(dist_closestpair, 2), sep = ""),
+         x = "Easting (m)",
+         y = "Northing (m)"
+    ) +
+    theme_bw()
+
+# Save file
+ggsave(file= here("Graphics","train_test_ds1ds2.png"),
+       width = 4.5, height = 3,
+       scale =2.2,
+       dpi = 300)
+```
+
+## Export train and test point data seperately
+```{r}
+
+# Extract test and train rows
+test <- subset(obs_ds1ds2, Set=="Test" )
+train <- subset(obs_ds1ds2, Set=="Training" )
+
+# Export test set to csv
+write.csv(test, file = here("Train and Test", "test.csv"), row.names = FALSE)
+
+```
+
+
+## Export as InversionInput.txt; All weights = 1
+
+Dataset 1 weight = 1
+Dataset 2 weight = 1
+Test points weight = 0
+
+```{r}
+
+# Format train points
+train_input <- train[, c("Easting", "Northing", "Load")]
+train_input$elevation <- 314.5 # Add elevation row
+train_input <- train_input[, c("Easting", "Northing", "elevation", "Load")] # reorder columns 
+train_input$Weight <- 1 # Add weight column
+# Format test points
+test_input <- test[, c("Easting", "Northing", "Load")]
+test_input$elevation <- 314.5 # Add elevation row
+test_input <- test_input[, c("Easting", "Northing", "elevation", "Load")] # reorder columns 
+test_input$Weight <- 0 # Add weight column
+# Combine train and test
+input_all1 <- rbind(train_input, test_input)
+write.table(input_all1, 
+            file = here("Train and Test","inversionInput_all1.txt"), 
+            sep = "\t",
+            row.names = FALSE, col.names = FALSE)
+
+```
+
+## Export as InversionInput.txt; Weighted
+
+Dataset 1 weight = 1
+Dataset 2 weight = 0.5
+Test points weight = 0
+
+```{r}
+
+# Extract dataset 1
+train_input_ds1 <- subset(train, Data=="Dataset_1" )
+train_input_ds1$Weight <- 1 # Add weight column
+# Extract dataset 2
+train_input_ds2 <- subset(train, Data=="Dataset_2" )
+train_input_ds2$Weight <- 0.5 # Add weight column
+# Combine
+train_input_weighted <- rbind(train_input_ds1, train_input_ds2)
+# Remove columns not needed for input text file
+train_input_weighted <- train_input_weighted[, c("Easting", "Northing", "Load", "Weight")]
+train_input_weighted$elevation <- 314.5 # Add elevation row
+train_input_weighted <- train_input_weighted[, c("Easting", "Northing", "elevation", "Load", "Weight")] # reorder columns 
+# Combine train and test
+input_weighted <- rbind(train_input_weighted, test_input)
+
+write.table(input_weighted,
+            file = here("Train and Test","inversionInput_weighted.txt"),
+            sep = "\t",
+            row.names = FALSE, col.names = FALSE)
+
+```
+
+
+## Export as InversionInput.txt; No Dataset2
+
+Dataset 1 weight = 1
+Dataset 2 = removed
+Test points weight = 0
+
+```{r}
+
+# Extract dataset 1
+train_input_ds1 <- subset(train, Data=="Dataset_1" )
+train_input_ds1$Weight <- 1 # Add weight column
+train_input_ds1 <- train_input_ds1[, c("Easting", "Northing", "Load", "Weight")]
+train_input_ds1$elevation <- 314.5 # Add elevation row
+train_input_ds1 <- train_input_ds1[, c("Easting", "Northing", "elevation", "Load", "Weight")] # reorder columns 
+
+# Combine train and test
+input_nods2 <- rbind(train_input_ds1, test_input)
+
+write.table(input_nods2,
+            file = here("Train and Test","inversionInput_nods2.txt"),
+            sep = "\t",
+            row.names = FALSE, col.names = FALSE)
+
+```
