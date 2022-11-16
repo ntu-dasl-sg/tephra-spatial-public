@@ -10,7 +10,7 @@ Tephra2 source code available [here](https://github.com/ljc-geo/tephra2).
 For Tephra2 inversion, we only needed the two executables created by the compilation of Tephra2 (tephra2012_inversion and tephra2-2012). For our paper, we modified these executables and saved them in `input for Tephra2/executables`.
 When using a specific cost function, a user can use the corresponding executable based on the filename we provided. (e.g. `tephra2-Chiweighted` and `tephraChiweighted_inversion` is used when inverting using the Chi-square cost function.
 
-Anyone can add more cost functions by editing the lines indicated below:
+Anyone can add more cost functions to the original source code by editing the lines indicated below:
 
 - `Tephra2` → `conf_files` → `tephra2-inversion.conf` - Add option in line 35
 - `inversion_src` → `fit_tests.c` — Add formula
