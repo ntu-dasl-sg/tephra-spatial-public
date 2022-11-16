@@ -7,11 +7,10 @@ We thank George and Sebastien for formatting and digitising the data from CVGHM 
 A complete description of the data is provided in our manuscript.
 
 ## 1 - Kelud_deposit_after2-3days_CVGHM_81points.csv
-Deposits were measured 2-3 days post-eruption
+Deposits were measured 2-3 days post-eruption.
 
 ## 2 - Kelud_deposit_after3weeks_Maeno_50points.csv
-Measurements taken three weeks later (though they argue that the thicknesses would not have compacted down or been washed away at all during this time...)
-Data is from supplementary from this paper by Maeno:
+Measurements taken three weeks later. Data is from supplementary from this paper by Maeno:
 http://dx.doi.org/10.1016/j.jvolgeores.2017.03.002  
 
 
