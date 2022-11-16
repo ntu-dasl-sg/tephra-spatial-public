@@ -20,14 +20,8 @@ Here we demonstrate how we post-process the results of Tephra2 inversion using R
     * Dataset 2: 641221.3	9121778	  (Load =  2.10e+02	 -- produces large errors
     * Dataset 2: 647377.0	9126551	  (Load =   2.24e+02 -- produces large errors
 
-2.  **Run input files in Komodo**
-* Use executables from `_Executables_16testpoints` in `t2_inversion` folder in Komodo.
-
-3.  **Postprocess output files using `Matlab_batch/batch_postprocess.m`
-* This generates `summary.txt` that contains the fit values of each discretized mass-height values.
-
-4.  **Get best models using `postprocess_komodo.Rmd`**
+3.  **Get best models using `save_best_fit.Rmd`**
 * This automatically picks out the folder with the best fit value and copies the output files to a folder called `Best Models`.
 
-5. **Generate plots and csv with `process_bestfit.Rmd`**
-* This creates maps of the best forward model and a csv of train errors, test errors and ESPs
+4. **Generate plots and csv with `process_bestfit.Rmd`**
+* This creates maps of the best forward model and a csv of train errors, test errors and best-fit ESPs.
