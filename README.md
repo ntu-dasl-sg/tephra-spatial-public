@@ -7,7 +7,7 @@ This is a code and data repository for our manuscript. Further inquiries can be 
 * Title: Inversion and forward estimation with process-based models: an investigation into cost functions, uncertainty-based weights and model-data fusion
 * Authors: ML Rabonza, M Nguyen, S Biasse, S Jenkins, B Taisne, D Lallemant
 * Journal: Environmental Modelling & Software
-* Under review
+* Submitted Nov 2022
 * Received: XX
 * Accepted: XX
 * Weblink: XX
