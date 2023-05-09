@@ -16,17 +16,17 @@ tephra-spatial-public/
 ├── README.md              # overview + Tephra2 quickstart instructions + cost function overview
 ├── data/                  # data files used in the project
 │   └── README.md          # describes where data came from
+├── src/                   # codes in the project
+│   ├── executables/       # modified Tephra2 source code used in the study + compiled executables
+│   ├── tephra2-source     # unmodified Tephra2 source code from developers
+│   └── fusion/            # R codes used for the model-data fusion and LOOCV
+├── results/               # results of the analysis (data, tables, figures)
 ├── doc/                   # documentation
 │   ├── stat-tests/        # short report on how we conducted goodness-of-fit tests in R
 │   ├── add-costf.md       # instructions to add more cost functions in the Tephra2 source code
 │   └── komodo.md          # outline of our analysis using the cluster in EOS Singapore
 ├── manuscript/            # files for the journal manuscript submitted to EMS
 │   └── README.md          # details of the paper
-├── results/               # results of the analysis (data, tables, figures)
-├── src/                   # codes in the project
-│   ├── executables/       # modified Tephra2 source code used in the study + compiled executables
-│   ├── tephra2-source     # unmodified Tephra2 source code from developers
-│   └── fusion/            # R codes used for the model-data fusion and LOOCV
 └── LICENSE                # License
 ```
 
