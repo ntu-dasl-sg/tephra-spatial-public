@@ -49,7 +49,7 @@ Our study utilises tephra2 (VERSION 2.0), a tephra dispersion simulation tool us
 
 ## TEPHRA2 QUICK START
 
-**The instructions below are directly derived from the Tephra2 [Github](https://github.com/geoscience-community-codes/tephra2).**
+**The instructions below are obtained from the Tephra2 [Github](https://github.com/geoscience-community-codes/tephra2).**
 
 First, download the Tephra2 source code from [Github](https://github.com/geoscience-community-codes/tephra2). A copy of the source code is also provided here in [`/src/tephra2-source/`](https://github.com/ntu-dasl-sg/tephra-spatial-public/tree/main/src/tephra2-source). If interested, instructions for parallelisation are provided [here](https://e5k.github.io/codes/utilities/2018/06/06/inversion/).
 
