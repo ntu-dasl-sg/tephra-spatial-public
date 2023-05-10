@@ -47,13 +47,13 @@ Our study utilises tephra2 (VERSION 2.0), a tephra dispersion simulation tool us
 - Program size: 963 KB
 - Hardware requirements: The inversion model requires MPI (Message Passing Interface) libraries and should be run on a computing cluster with multiple compute nodes. 
 
-### Tephra2 Quick Start
+## TEPHRA2 QUICK START
 
 **The instructions below are directly derived from the Tephra2 [Github](https://github.com/geoscience-community-codes/tephra2).**
 
 First, download the Tephra2 source code from [Github](https://github.com/geoscience-community-codes/tephra2). A copy of the source code is also provided here in [`/src/tephra2-source/`](https://github.com/ntu-dasl-sg/tephra-spatial-public/tree/main/src/tephra2-source). If interested, instructions for parallelisation are provided [here](https://e5k.github.io/codes/utilities/2018/06/06/inversion/).
 
-#### Install the following dependencies:
+### Install the following dependencies:
 
 The following dependencies can be installed via terminal. Visit the corresponding download websites for installation instructions applicable to your computer.
 
@@ -61,7 +61,7 @@ The following dependencies can be installed via terminal. Visit the correspondin
 - [openmpi](https://docs.open-mpi.org/en/v5.0.x/installing-open-mpi/quickstart.html)
 - [gc](https://www.linuxfromscratch.org/blfs/view/svn/general/gc.html), [gc-devel](https://yum-info.contradodigital.com/view-package/base/gc-devel/), [libatomic_ops](https://github.com/ivmai/libatomic_ops) (for opensuse linux) or [libgc-dev](https://howtoinstall.co/en/libgc-dev), [libgc1c2](https://howtoinstall.co/en/libgc1c2) (for ubuntu linux) or [bdw-gc](https://brewinstall.org/install-bdw-gc-on-mac-with-brew/) (mac - homebrew)
 
-#### Compilation
+### Compilation
 
 tephra2 is written in C, a compiled language, and must be compiled before it can be executed. See [README](https://github.com/geoscience-community-codes/tephra2/blob/master/README.usage) for quickstart instructions. Specifically, to compile the linux executables, in the top level directory, on the command line type:
 
@@ -71,7 +71,7 @@ make
 
 This will compile both the forward model and the inversion model. If you do not have openmpi installed the inversion model will fail to compile, but the forward model will still be compiled. This is OK if you only want the forward model.
 
-#### Usage
+### Usage
 
 Two configuration files are needed, one for the forward model (tephra2.conf) and another for the inversion model (tephra2-inversion.conf). The program user can change any of the values inside the configuration file; the keywords must not be changed. The forward model can be run on a single computing node. The inversion model requires a computing cluster with multiple compute nodes. 
 
@@ -104,7 +104,7 @@ where,
 Easting(m)  Northing(m)  Grid-elevation(m)  Mass(kg/m^2)
 - **wind_file** is a text file of wind data to use for the inversion (same format as above)
 
-### Changing the cost functions
+## USING OTHER COST FUNCTIONS WITH TEPHRA2
 
 For our paper, we modified the Tephra2 executables to change the cost functions in the optimisation. The modified executables for the following cost functions are provided in: [`/src/executables/`](https://github.com/ntu-dasl-sg/tephra-spatial-public/tree/main/src/executables).
 - Chi-squared error
