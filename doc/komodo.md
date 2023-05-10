@@ -16,7 +16,7 @@ Here we outline our analysis.
 * We prepared working folders for the inversion (`results/input for Tephra2/`). These contain the configuration files, wind data, observation data (outliers removed), and the inversion script to run the inversion. 
 
 3.  **Run inversion**
-* We use the computing cluster ("Komodo") in Earth Observatory of Singapore to run the inversion.
+* We use the computing cluster ("Komodo") in Earth Observatory of Singapore to run the inversion. We used batch inversion run using the shell command: `qsub -t 9-11 runInversion_PBS.sh`.
 * The best-fit modelled outputs are saved to `results/best models/`. This contains the values of the best-fit source parameters, and a gridded file containing predicted values at each grid.
 * Output csv files containing the predictions at each sampled site are saved to `results/output csv/`. 
 * Output figures saved to `results/graphics-maps/` and `graphics-pred_vs_obs`
