@@ -9,15 +9,16 @@ Rabonza ML, Nguyen M, Biasse S, Jenkins S, Taisne B, and Lallemant D (2023) Inve
 
 ## Author Contributions
 
-MR lead the writing, research and analysis of both case studies. All authors contributed to the conceptualisation and design of the study. DL conceived of the idea of celebrating successes in disaster risk reduction using counterfactual analysis. YL and DL provided critical feedback that shaped the research, analysis and manuscript.
+MR, MN and DL designed the research. MR wrote the manuscript. SB provided guidance in conducting tephra inversion modelling. All authors discussed the results and commented on the manuscript.
 
 ## Funding
 
-This project is supported by the National Research Foundation, Prime Minister’s Office, Singapore under the NRF-NRFF2018-06 award, the Earth Observatory of Singapore, the National Research Foundation of Singapore, and the Singapore Ministry of Education under the Research Centers of Excellence initiative. MR is supported by a PhD scholarship from the Earth Observatory of Singapore. 
+This research is supported by the Earth Observatory of Singapore, the National Research Foundation Singapore, and the Singapore Ministry of Education under the NRF-NRFF2018-06 award. 
 
 ## Acknowledgements
 
 We are grateful to Edwin Tan for his support in the use of the High-Performance Computing Cluster, Komodo, in the Earth Observatory of Singapore. We thank George Williams for his support and insights related to the tephra load datasets.
+
 
 ## Paper details
 
