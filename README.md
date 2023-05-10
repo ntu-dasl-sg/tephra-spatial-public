@@ -4,7 +4,7 @@ This is a code and data repository for our manuscript. Further inquiries can be 
 
 ## Citation:
 ```
-Rabonza ML, Nguyen M, Biasse S, Jenkins S, Taisne B, and Lallemant D (2023) Inversion and forward estimation with process-based models: an investigation into cost functions, uncertainty-based weights and model-data fusion. EMS. In-prep
+Rabonza ML, Nguyen M, Biass S, Jenkins S, Taisne B, and Lallemant D (2023) Inversion and forward estimation with process-based models: an investigation into cost functions, uncertainty-based weights and model-data fusion. EMS. In-prep
 ```
 
 ## REPOSITORY OUTLINE
@@ -82,7 +82,7 @@ tephra2_2020 tephra2.conf grid_file wind_file > tephra2.out
 where,
 - **tephra2_2020** is the name of the executable
 - **tephra2.conf** is the name of the file of configuration parameters (an example)
-- **grid_file** is is a text file of 3 columns separated by spaces (an example) following the format:
+- **grid_file** is a text file of 3 columns separated by spaces (an example) following the format:
 `Easting(m)  Northing(m)  Grid-Elevation(m)`
 - **wind_file** is a 3-column text file of wind data (an example) following the format:
 `Height(masl)  Wind-Speed(m/s)  Wind-Direction(wind vector azimuth in degrees)`. [Here is a guide](https://github.com/geoscience-community-codes/tephra2/blob/master/plotting_scripts/readme.wind) to download and create wind files for Tephra2 based on NOAA reanalysis data.
