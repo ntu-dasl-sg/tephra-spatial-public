@@ -1,6 +1,6 @@
 ## Results
 
-All the results for all cost functions, and weighting schemes are saved here in the `results` folder. To generate these results, we used batch inversion run using the shell command: `qsub -t 9-11 runInversion_PBS.sh`.
+All the results for all cost functions, and weighting schemes are saved here in the `results` folder.
 
 - `best models` - the Tephra2 output (`tephra.out and tephra2.out`) for the run with the best-fit ESPs
 - `graphics-maps` - tephra load maps
