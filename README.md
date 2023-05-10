@@ -45,7 +45,7 @@ Our study utilises tephra2 (VERSION 2.0), a tephra dispersion simulation tool us
 - License: GNU General Public License v3.0
 - Availability: https://github.com/geoscience-community-codes/tephra2
 - Program size: 963 KB
-- Hardware requirements: The inversion model requires MPI (Message Passing Interface) libraries and should be run on a computing cluster with multiple compute nodes. 
+- Hardware requirements: The inversion model requires MPI (Message Passing Interface) libraries and should be run on a computing cluster with multiple compute nodes. The forward model can be compiled without MPI installed.
 
 ## TEPHRA2 QUICK START
 
